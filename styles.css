@@ -1,41 +1,47 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #f7f6f3; /* Light neutral background */
 }
 
 .container {
-    max-width: 800px;
-    margin: 20px auto;
+    max-width: 1000px;
+    margin: 40px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ffffff; /* White container for content */
+    border: 1px solid #e6e6e6; /* subtle border */
     border-radius: 8px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #333; /* Dark text for readability */
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    color: #2a2a2a; /* Slightly lighter than black for a softer look */
+    margin-bottom: 0.8em;
 }
 
 form {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 label {
     display: block;
     margin-bottom: 5px;
-    color: #666;
+    color: #5a5a5a; /* Slightly lighter for a modern look */
 }
 
 input[type="text"] {
-    width: calc(100% - 10px);
+    width: 100%; /* Responsive width */
     padding: 12px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    background: #f7f6f3; /* Background like the body for blending */
+    border: 1px solid #dcdcdc; /* subtle border */
     border-radius: 4px;
     font-size: 16px;
+    box-sizing: border-box; /* Includes padding in the width calculation */
+    color: #333;
 }
 
 #favorites-container {
@@ -43,9 +49,9 @@ input[type="text"] {
 }
 
 button {
-    padding: 10px 20px;
+    padding: 10px 25px;
     border: none;
-    background-color: #3498db;
+    background-color: #ff6347; /* Tomatoes-color for vibrance */
     color: #fff;
     cursor: pointer;
     border-radius: 4px;
@@ -54,12 +60,11 @@ button {
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: #e5533c; /* Slightly darker on hover */
 }
 
 #recommendations {
     margin-top: 20px;
-    color: #333;
     line-height: 1.6;
 }
 
@@ -67,16 +72,16 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Adjust this as needed */
+    padding: 50px 0;
 }
 
 .loader {
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #3498db;
+    border: 4px solid #eaeaea; /* Light grey border */
+    border-top: 4px solid #ff6347; /* Tomatoes-color for spinner */
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 2s linear infinite;
+    width: 36px;
+    height: 36px;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {

@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const favoritesContainer = document.getElementById('favorites-container');
     const addMoreBtn = document.getElementById('add-more-btn');
     const generateBtn = document.getElementById('generate-btn');
-    const recommendationsDiv = document.getElementById('recommendations');
     const loadingDiv = document.getElementById('loadingDiv');
+    const recommendationsDiv = document.getElementById('recommendations');
 
     // Event listener for "Add More" button
     addMoreBtn.addEventListener('click', function() {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please enter at least one favorite movie/series.');
             return;
         }
-        generateBtn.disabled = true;  // Disable butto
+        generateBtn.disabled = true;  // Disable button
         generateRecommendations(favorites);
     });
 
@@ -47,20 +47,33 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hide loading symbol after getting the response
             loadingDiv.style.display = 'none';
             generateBtn.disabled = false;
-        
-            // Replace markdown syntax with HTML
-            const boldReplaced = data.recommendations[0].replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
-            const linkReplaced = boldReplaced.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
-            const recommendations = linkReplaced.replace(/\n/g, "<br>");
+            
+            // Parse response string into JSON
+            const dataJson = JSON.parse(data.recommendations[0]);
+
+            // Generate HTML for movies and TV series recommendations
+            let html = `<h2>Movies</h2>${generateHtmlForCategory(dataJson.movies)}<br>
+                        <h2>TV Series</h2>${generateHtmlForCategory(dataJson.tvSeries)}`;
+
             // Set HTML of `recommendationsDiv`
-            recommendationsDiv.innerHTML = '<h2>Recommended Movies/Series:</h2>' + recommendations;
+            recommendationsDiv.innerHTML = html;
         })
         .catch(error => {
             // Hide loading symbol if an error occurs
             loadingDiv.style.display = 'none';
             generateBtn.disabled = false;
+
             console.error('Error fetching recommendations:', error);
             recommendationsDiv.innerHTML = '<p>Failed to fetch recommendations. Please try again later.</p>';
         });
+    }
+
+    // Function to generate HTML for a category of recommendations
+    function generateHtmlForCategory(items) {
+        let html = "";
+        items.forEach((item, index) => {
+            html += `<p>${index+1}. <a href="${item.imdb}" target="_blank">${item.title}</a> - ${item.description}</p>`;
+        });
+        return html;
     }
 });
