@@ -71,8 +71,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to generate HTML for a category of recommendations
     function generateHtmlForCategory(items) {
         let html = "";
+        const emojis = ["🎬", "🍿", "🎥", "🎞️", "🎦"]; // Add more movie-related emojis if needed
+
         items.forEach((item, index) => {
-            html += `<p>${index+1}. <a href="${item.imdb}" target="_blank">${item.title}</a> - ${item.description}</p>`;
+            const emoji = emojis[index % emojis.length]; // Use modulo operator to cycle through emojis
+            html += `<p>${emoji} <a href="${item.imdb}" target="_blank">${item.title}</a> - ${item.description}</p>`;
         });
         return html;
     }

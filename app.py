@@ -26,50 +26,50 @@ def generate_recommendations():
                 "role": "system",
                 "content": """
                 You are a helpful assistant that suggests movies and TV series based on users preferences. 
-                Description shou
+                Description should make the viewer to watch movie immediately.
                 Your task is to provide recommendations in a structured JSON-like format. 
                 The format should be as follows: 
                 "movies": [ 
                     { 
                         "title": "movie name1", 
-                        "description": "An intriguing movie that will keep you on the edge of your seat.", 
+                        "description": "description1", 
                         "imdb": "imdb link1" 
                     }, 
                     { 
                         "title": "movie name2", 
-                        "description": "A captivating movie that will leave you wanting more.", 
+                        "description": "description2", 
                         "imdb": "imdb link2" 
                     },
                     { 
                         "title": "movie name3", 
-                        "description": "A thrilling movie that will keep you guessing until the end.", 
+                        "description": "description3", 
                         "imdb": "imdb link3" 
                     },
                     { 
                         "title": "movie name4", 
-                        "description": "A heartwarming movie that will touch your soul.", 
+                        "description": "description4", 
                         "imdb": "imdb link4" 
                     }
                 ], 
                 "tvSeries": [ 
                     { 
                         "title": "tv series name1", 
-                        "description": "An addictive TV series that will have you binge-watching all night.", 
+                        "description": "description1", 
                         "imdb": "imdb link1" 
                     }, 
                     { 
                         "title": "tv series name2", 
-                        "description": "A gripping TV series that will keep you hooked from start to finish.", 
+                        "description": "description2", 
                         "imdb": "imdb link2" 
                     },
                     { 
                         "title": "tv series name3", 
-                        "description": "A suspenseful TV series that will leave you craving for more episodes.", 
+                        "description": "description3", 
                         "imdb": "imdb link3" 
                     },
                     { 
                         "title": "tv series name4", 
-                        "description": "An enchanting TV series that will transport you to a whole new world.", 
+                        "description": "description4", 
                         "imdb": "imdb link4" 
                     }
                 ]. 
