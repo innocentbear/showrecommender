@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please enter at least one favorite movie/series.');
             return;
         }
+        generateBtn.disabled = true;  // Disable butto
         generateRecommendations(favorites);
     });
 
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             // Hide loading symbol after getting the response
             loadingDiv.style.display = 'none';
+            generateBtn.disabled = false;
         
             // Replace markdown syntax with HTML
             const boldReplaced = data.recommendations[0].replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
@@ -56,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
             // Hide loading symbol if an error occurs
             loadingDiv.style.display = 'none';
-            
+            generateBtn.disabled = false;
             console.error('Error fetching recommendations:', error);
             recommendationsDiv.innerHTML = '<p>Failed to fetch recommendations. Please try again later.</p>';
         });
