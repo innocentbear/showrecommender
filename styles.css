@@ -49,9 +49,11 @@ label {
 }
 
 input[type="text"] {
+    flex-grow: 1;
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
+    margin-right: 5px;
     background-color: #ffffff; /* White */
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -90,38 +92,29 @@ button:hover {
     height: 36px;
     animation: spin 1s linear infinite;
 }
-
-/* Input Group */
-.input-group {
-    position: relative;
-    margin-bottom: 10px;
-}
-
-.favorite-input {
-    width: calc(100% - 30px); /* Slightly shrink width to fit the remove button */
-    padding: 12px;
-    border: 1px solid #943c3c;
-    border-radius: 4px;
-}
-
-.remove-btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 30px; /* Matching height of the input */
-    margin: auto; /* Vertically center */
-    background-color: #add8e6; /* Light blue background */
-    color: rgb(210, 61, 61);
-    text-align: center;
-    line-height: 30px; /* Match height for vertical centering */
+.input-container {
+    display: flex; /* Keep elements side-by-side */
+    align-items: center; /* Vertical alignment */
+    margin-bottom: 2px; /* Spacing between input rows */
+  }
+  
+  .remove-btn {
+    padding: 0 12px; /* Add some padding for better click target */
+    margin-left: 10px; /* Spacing between input and button */
+    background-color: #ccc; /* Light gray background */
+    border: none;
+    color: #666; /* Darker text for visibility */
+    font-size: 18px; /* Size of the minus symbol */
     cursor: pointer;
-}
+    height: 100%; /* Match with parent's height */
+    border-top-right-radius: 4px; /* Rounded corner top right */
+    border-bottom-right-radius: 4px; /* Rounded corner bottom right */
+  }
 
 .remove-btn:hover {
     background-color: #97c7e6; /* Slightly darker blue on hover */
+    color: #fff; /* White text on hover for visibility */
 }
-
 /* Animation */
 @keyframes spin {
     0% { transform: rotate(0deg); }

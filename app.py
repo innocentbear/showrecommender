@@ -35,8 +35,7 @@ def generate_recommendations():
                     { 
                         "title": "movie name1", 
                         "description": "description1 in single line", 
-                        "imdb": "imdb link1",
-                        "youtube_trailer": "youtube trailer link1"
+                        "imdb": "imdb link1"
                     }
                 ], 
                 "tvSeries": [ 

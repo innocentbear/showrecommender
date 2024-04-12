@@ -8,12 +8,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for "Add More" button
     addMoreBtn.addEventListener('click', function() {
+        const newInputContainer = document.createElement('div');
+        newInputContainer.classList.add('input-container');
+        newInputContainer.style.display = 'flex'; // Add this line
+
         const newInput = document.createElement('input');
         newInput.type = 'text';
         newInput.name = 'favorite';
         newInput.placeholder = 'Favorite Movie/Series';
-        favoritesContainer.appendChild(newInput);
+        newInputContainer.appendChild(newInput);
+
+        // Add remove button for the new input field
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = '-';
+        removeBtn.classList.add('remove-btn'); // This line uses the remove-btn class
+        removeBtn.addEventListener('click', function() {
+            newInputContainer.remove();
+        });
+        newInputContainer.appendChild(removeBtn);
+
+        favoritesContainer.appendChild(newInputContainer);
     });
+
 
     // Event listener for form submission
     favoritesForm.addEventListener('submit', function(event) {
