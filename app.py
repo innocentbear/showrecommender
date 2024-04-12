@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import time  # Import time module to calculate response time
 from openai import AzureOpenAI
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ client = AzureOpenAI(
 @app.route('/api/recommendations', methods=['POST'])
 def generate_recommendations():
     try:
+        start_time = time.time()  # Record the start time
         # Get user favorites from request
         favorites = request.json.get('favorites', [])
 
@@ -32,23 +34,9 @@ def generate_recommendations():
                 "movies": [ 
                     { 
                         "title": "movie name1", 
-                        "description": "description1", 
-                        "imdb": "imdb link1" 
-                    }, 
-                    { 
-                        "title": "movie name2", 
-                        "description": "description2", 
-                        "imdb": "imdb link2" 
-                    },
-                    { 
-                        "title": "movie name3", 
-                        "description": "description3", 
-                        "imdb": "imdb link3" 
-                    },
-                    { 
-                        "title": "movie name4", 
-                        "description": "description4", 
-                        "imdb": "imdb link4" 
+                        "description": "description1 in single line", 
+                        "imdb": "imdb link1",
+                        "youtube_trailer": "youtube trailer link1"
                     }
                 ], 
                 "tvSeries": [ 
@@ -56,21 +44,6 @@ def generate_recommendations():
                         "title": "tv series name1", 
                         "description": "description1", 
                         "imdb": "imdb link1" 
-                    }, 
-                    { 
-                        "title": "tv series name2", 
-                        "description": "description2", 
-                        "imdb": "imdb link2" 
-                    },
-                    { 
-                        "title": "tv series name3", 
-                        "description": "description3", 
-                        "imdb": "imdb link3" 
-                    },
-                    { 
-                        "title": "tv series name4", 
-                        "description": "description4", 
-                        "imdb": "imdb link4" 
                     }
                 ]. 
                 You always return the JSON with no additional context or description.
@@ -87,6 +60,7 @@ def generate_recommendations():
         # Make API call to Azure OpenAI
         completion = client.chat.completions.create(
             model="recommendations",  # model = "deployment_name"
+            response_format={ "type": "json_object" },
             messages=message_text,
             temperature=0.7,
             max_tokens=800,
@@ -99,10 +73,16 @@ def generate_recommendations():
         # Extract recommendations from Azure OpenAI response
         recommendations = [choice.message.content for choice in completion.choices]
 
+        end_time = time.time()  # Record the end time (after API response)
+        total_time = end_time - start_time  # Compute the total response time
+        app.logger.info(f'Recommendation API call took {total_time:.2f} seconds.')
         # Return recommendations as JSON response
         return jsonify({'recommendations': recommendations})
 
     except Exception as e:
+        end_time = time.time()
+        total_time = end_time - start_time
+        app.logger.error(f'Recommendation API call failed after {total_time:.2f} seconds with error: {str(e)}')
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':

@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function generateRecommendations(favorites) {
         const requestBody = { favorites };
 
+        // Clear previous recommendations
+        recommendationsDiv.innerHTML = '';
+        
         // Show loading symbol before making the fetch request
         loadingDiv.style.display = 'block';
 

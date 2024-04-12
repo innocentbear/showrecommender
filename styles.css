@@ -1,73 +1,80 @@
-body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+/* Reset */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f7f6f3; /* Light neutral background */
+    box-sizing: border-box;
 }
 
+/* Fonts */
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #2a2a2a; /* Dark grey */
+}
+
+h1 {
+    color: #2a2a2a;
+    font-weight: bold;
+    margin-bottom: 0.8em;
+    text-align: center; /* Center the h1 heading */
+}
+
+h2, h3 {
+    color: #2a2a2a;
+    font-weight: bold;
+    margin-bottom: 0.8em;
+}
+
+/* Layout */
 .container {
     max-width: 1000px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #ffffff; /* White container for content */
-    border: 1px solid #e6e6e6; /* subtle border */
+    background-color: #f8f8f8; /* Light grey */
+    border: 1px solid #e6e6e6;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    color: #333; /* Dark text for readability */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    text-align: center;
-    color: #2a2a2a; /* Slightly lighter than black for a softer look */
-    margin-bottom: 0.8em;
-}
-
+/* Form */
 form {
     margin-bottom: 30px;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
-    color: #5a5a5a; /* Slightly lighter for a modern look */
+    margin-bottom: 10px;
+    color: #2a2a2a; /* Dark grey */
 }
 
 input[type="text"] {
-    width: 100%; /* Responsive width */
+    width: 100%;
     padding: 12px;
-    margin-bottom: 10px;
-    background: #f7f6f3; /* Background like the body for blending */
-    border: 1px solid #dcdcdc; /* subtle border */
+    margin-bottom: 15px;
+    background-color: #ffffff; /* White */
+    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    box-sizing: border-box; /* Includes padding in the width calculation */
-    color: #333;
-}
-
-#favorites-container {
-    margin-bottom: 10px;
+    color: #555;
 }
 
 button {
-    padding: 10px 25px;
+    padding: 12px 25px;
+    background-color: #f20558; /* Zerodha pink */
     border: none;
-    background-color: #ff6347; /* Tomatoes-color for vibrance */
-    color: #fff;
-    cursor: pointer;
     border-radius: 4px;
     font-size: 16px;
+    color: #fff;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #e5533c; /* Slightly darker on hover */
+    background-color: #c51162; /* Darker pink on hover */
 }
 
-#recommendations {
-    margin-top: 20px;
-    line-height: 1.6;
-}
-
+/* Loader */
 #loading {
     display: flex;
     justify-content: center;
@@ -76,14 +83,43 @@ button:hover {
 }
 
 .loader {
-    border: 4px solid #eaeaea; /* Light grey border */
-    border-top: 4px solid #ff6347; /* Tomatoes-color for spinner */
+    border: 4px solid #eaeaea;
+    border-top: 4px solid #f50057; /* Zerodha pink */
     border-radius: 50%;
     width: 36px;
     height: 36px;
     animation: spin 1s linear infinite;
 }
+..input-group {
+    position: relative;
+    margin-bottom: 10px;
+}
 
+.favorite-input {
+    width: calc(100% - 30px); /* Slightly shrink width to fit the remove button */
+    padding: 12px;
+    border: 1px solid #943c3c;
+    border-radius: 4px;
+}
+
+.remove-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px; /* Matching height of the input */
+    margin: auto; /* Vertically center */
+    background-color: #add8e6; /* Light blue background */
+    color: rgb(210, 61, 61);
+    text-align: center;
+    line-height: 30px; /* Match height for vertical centering */
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background-color: #97c7e6; /* Slightly darker blue on hover */
+}
+/* Animation */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
