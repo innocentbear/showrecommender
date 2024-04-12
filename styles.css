@@ -61,7 +61,7 @@ input[type="text"] {
 
 button {
     padding: 12px 25px;
-    background-color: #f20558; /* Zerodha pink */
+    background-color: #e50914; /* Netflix red */
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -71,7 +71,7 @@ button {
 }
 
 button:hover {
-    background-color: #c51162; /* Darker pink on hover */
+    background-color: #b2070d; /* Darker red on hover */
 }
 
 /* Loader */
@@ -84,13 +84,15 @@ button:hover {
 
 .loader {
     border: 4px solid #eaeaea;
-    border-top: 4px solid #f50057; /* Zerodha pink */
+    border-top: 4px solid #f50057; /* Netflix red */
     border-radius: 50%;
     width: 36px;
     height: 36px;
     animation: spin 1s linear infinite;
 }
-..input-group {
+
+/* Input Group */
+.input-group {
     position: relative;
     margin-bottom: 10px;
 }
@@ -119,6 +121,7 @@ button:hover {
 .remove-btn:hover {
     background-color: #97c7e6; /* Slightly darker blue on hover */
 }
+
 /* Animation */
 @keyframes spin {
     0% { transform: rotate(0deg); }
