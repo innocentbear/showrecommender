@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const generateBtn = document.getElementById('generate-btn');
     const loadingDiv = document.getElementById('loadingDiv');
     const recommendationsDiv = document.getElementById('recommendations');
-
+    const apiKey = '34f84a38';  // OMDb API key
     // Event listener for "Add More" button
     addMoreBtn.addEventListener('click', function() {
         const newInputContainer = document.createElement('div');
@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
         newInputContainer.appendChild(removeBtn);
 
         favoritesContainer.appendChild(newInputContainer);
+
+        // Bind autocomplete functionality to the new input field
+        setupAutocomplete(newInput);
     });
 
 
@@ -42,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
         generateBtn.disabled = true;  // Disable button
         generateRecommendations(favorites);
     });
-
+    // Setup autocomplete for the initial existing input
+    setupAutocomplete(document.getElementById('favorite'));
     // Function to generate recommendations
     function generateRecommendations(favorites) {
         const requestBody = { favorites };
@@ -97,5 +101,62 @@ document.addEventListener('DOMContentLoaded', function() {
             html += `<p>${emoji} <a href="${item.imdb}" target="_blank">${item.title}</a> - ${item.description}</p>`;
         });
         return html;
+    }
+    // Function to clear autocomplete suggestions
+    function clearAutocompleteSuggestions() {
+        const autocompleteContainers = document.querySelectorAll('.autocomplete-container');
+        autocompleteContainers.forEach(container => container.remove());
+    }
+
+    // Function to display autocomplete suggestions
+    function showAutocompleteSuggestions(input, suggestions) {
+        clearAutocompleteSuggestions();
+        
+        const suggestionsContainer = document.createElement('div');
+        suggestionsContainer.className = 'autocomplete-container';
+
+        suggestions.forEach(suggestion => {
+            const suggestionDiv = document.createElement('div');
+            suggestionDiv.className = 'autocomplete-item';
+            suggestionDiv.innerText = suggestion;
+            suggestionDiv.addEventListener('click', () => {
+                input.value = suggestion;
+                clearAutocompleteSuggestions();
+            });
+            suggestionsContainer.appendChild(suggestionDiv);
+        });
+        
+        // input.parentNode.appendChild(suggestionsContainer);
+            // Append the suggestions container below the "Add More" button
+        favoritesContainer.appendChild(suggestionsContainer);
+    }
+
+    // Function to fetch autocomplete suggestions from the OMDb API
+    function fetchSuggestions(inputElement) {
+        const searchTerm = inputElement.value.trim();
+        if(searchTerm.length > 2) { // Only fetch if the input length is 3 or more
+            fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                if(data.Search) {
+                    showAutocompleteSuggestions(inputElement, data.Search.map(m => m.Title));
+                }
+            }).catch(error => {
+                console.error(error);
+                clearAutocompleteSuggestions();
+            });
+        } else {
+            clearAutocompleteSuggestions();
+        }
+    }
+
+    // Setup autocomplete for an input element
+    function setupAutocomplete(inputElement) {
+        inputElement.addEventListener('input', () => fetchSuggestions(inputElement));
+        inputElement.addEventListener('focus', () => fetchSuggestions(inputElement));
+        inputElement.addEventListener('blur', () => {
+            // Delay clearing the suggestions so we can click them
+            setTimeout(() => clearAutocompleteSuggestions(), 300);
+        });
     }
 });

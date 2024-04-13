@@ -35,14 +35,14 @@ def generate_recommendations():
                     { 
                         "title": "movie name1", 
                         "description": "description1 in single line", 
-                        "imdb": "imdb link1"
+                        "imdb": "imdb link1",
                     }
                 ], 
                 "tvSeries": [ 
                     { 
                         "title": "tv series name1", 
                         "description": "description1", 
-                        "imdb": "imdb link1" 
+                        "imdb": "imdb link1",
                     }
                 ]. 
                 You always return the JSON with no additional context or description.

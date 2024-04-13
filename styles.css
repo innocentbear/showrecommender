@@ -96,9 +96,11 @@ button:hover {
     display: flex; /* Keep elements side-by-side */
     align-items: center; /* Vertical alignment */
     margin-bottom: 2px; /* Spacing between input rows */
+    position: relative;
+    z-index: 1;
   }
   
-  .remove-btn {
+.remove-btn {
     padding: 0 12px; /* Add some padding for better click target */
     margin-left: 10px; /* Spacing between input and button */
     background-color: #ccc; /* Light gray background */
@@ -114,6 +116,36 @@ button:hover {
 .remove-btn:hover {
     background-color: #97c7e6; /* Slightly darker blue on hover */
     color: #fff; /* White text on hover for visibility */
+}
+/* Autocomplete Styles */
+.autocomplete-container {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    z-index: 10;
+    width: 50%;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}
+
+.autocomplete-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover {
+    background-color: #f7f7f7;
+}
+
+.autocomplete-input { /* Added this for better control and style of the inputs */
+    width: calc(100% - 40px); /* Subtract the width of the button, so input and button fit in one line */
 }
 /* Animation */
 @keyframes spin {
