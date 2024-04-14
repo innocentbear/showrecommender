@@ -33,12 +33,24 @@ document.addEventListener('DOMContentLoaded', function() {
         setupAutocomplete(newInput);
     });
 
+    // Keydown event listener for "Enter" key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent form submission
+            addMoreBtn.click(); // Trigger the click event of the "Add More" button
+            clearAutocompleteSuggestions();
 
+            // Move cursor to the next input field
+            const inputFields = document.querySelectorAll('.input-container input');
+            const lastInputField = inputFields[inputFields.length - 1];
+            lastInputField.focus();
+        }
+    });
     // Event listener for form submission
     favoritesForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const favorites = Array.from(favoritesForm.elements['favorite']).map(input => input.value.trim()).filter(Boolean);
-        if (favorites.length === 0) {
+        if (favorites.length === 0 && favoritesForm.elements['favorite'].value.trim() === '') {
             alert('Please enter at least one favorite movie/series.');
             return;
         }
@@ -56,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Show loading symbol before making the fetch request
         loadingDiv.style.display = 'block';
+        
 
         // Make API call to backend server
         fetch('http://localhost:5000/api/recommendations', {
@@ -75,8 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const dataJson = JSON.parse(data.recommendations[0]);
 
             // Generate HTML for movies and TV series recommendations
-            let html = `<h2>Movies</h2>${generateHtmlForCategory(dataJson.movies)}<br>
-                        <h2>TV Series</h2>${generateHtmlForCategory(dataJson.tvSeries)}`;
+            let html = `<h2>🎦Movies</h2>${generateHtmlForCategory(dataJson.movies)}<br>
+                        <h2>📺TV Series</h2>${generateHtmlForCategory(dataJson.tvSeries)}`;
 
             // Set HTML of `recommendationsDiv`
             recommendationsDiv.innerHTML = html;
