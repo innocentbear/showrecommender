@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingDiv = document.getElementById('loadingDiv');
     const recommendationsDiv = document.getElementById('recommendations');
     const apiKey = '34f84a38';  // OMDb API key
+    let messageTimeout;
+    // Array of engaging messages to display
+    const engagingMessages = [
+        "We're tailoring recommendations just for you... 🌟",
+        "Hang tight! We're finding the perfect picks for you... 🎬",
+        "Almost there... Finding movies you'll love takes time! 🍿",
+        "We're curating your movie list... Please wait! ⏳",
+        "Just a bit longer... Adding a sprinkle of cinematic magic! ✨"
+    ];
+    
     // Event listener for "Add More" button
     addMoreBtn.addEventListener('click', function() {
         const newInputContainer = document.createElement('div');
@@ -67,7 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
         recommendationsDiv.innerHTML = '';
         
         // Show loading symbol before making the fetch request
-        loadingDiv.style.display = 'block';
+        loadingDiv.style.display = 'flex';
+        cycleMessages();
         
 
         // Make API call to backend server
@@ -82,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             // Hide loading symbol after getting the response
             loadingDiv.style.display = 'none';
+            stopLoadingWithMessage("🌟 Recommendations ready!");
             generateBtn.disabled = false;
             
             // Parse response string into JSON
@@ -97,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
             // Hide loading symbol if an error occurs
             loadingDiv.style.display = 'none';
+            stopLoadingWithMessage("Oops! Something went wrong. 🚨");
             generateBtn.disabled = false;
 
             console.error('Error fetching recommendations:', error);
@@ -171,5 +184,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // Delay clearing the suggestions so we can click them
             setTimeout(() => clearAutocompleteSuggestions(), 300);
         });
+    }
+
+    // Function to cycle through messages
+    function cycleMessages(index = 0) {
+        const loadingMessageElement = document.getElementById('loading-message');
+        loadingMessageElement.textContent = engagingMessages[index];
+        index = (index + 1) % engagingMessages.length;
+
+        // Change message every 6 seconds
+        messageTimeout = setTimeout(() => cycleMessages(index), 6000);
+    }
+    // When loading is complete or if an error occurs, hide the loading symbol and stop cycling messages
+    function stopLoadingWithMessage(message) {
+        loadingDiv.style.display = 'none';
+        clearTimeout(messageTimeout); // Stop cycling messages
+        document.getElementById('loading-message').textContent = message;
     }
 });

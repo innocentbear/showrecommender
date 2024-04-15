@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import os
 import time  # Import time module to calculate response time
 from openai import AzureOpenAI
@@ -14,8 +16,15 @@ client = AzureOpenAI(
     api_version="2024-02-15-preview"
 )
 
+# Configure rate limiting
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["100 per day", "10 per hour"]
+)
 
 @app.route('/api/recommendations', methods=['POST'])
+@limiter.limit("5 per minute")  # Limit this endpoint to 5 requests per minute
 def generate_recommendations():
     try:
         start_time = time.time()  # Record the start time
