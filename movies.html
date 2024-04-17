@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Recommendations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        #movieList {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Movie Recommendations</h1>
+        <div id="movieList"></div>
+        <button id="addButton">Add more</button>
+        <button id="generateButton">Generate</button>
+        <div id="recommendations"></div>
+    </div>
+    <script>
+        var movieList = document.getElementById('movieList');
+        var addButton = document.getElementById('addButton');
+        var generateButton = document.getElementById('generateButton');
+        var recommendations = document.getElementById('recommendations');
+        var movieCount = 1;
+        
+        function addMovieField() {
+            var newField = document.createElement('input');
+            newField.setAttribute('type', 'text');
+            newField.setAttribute('id', 'movie' + movieCount);
+            movieList.appendChild(newField);
+            movieCount++;
+        }
+
+        function generateRecommendations() {
+            // Here, you would make an API call to your GPT model.
+            // For simplicity, we're just listing out the entered movies.
+            var recommendationText = '';
+            for (var i = 1; i < movieCount; i++) {
+                var movie = document.getElementById('movie' + i).value;
+                recommendationText += '<p>' + movie + '</p>';
+            }
+            recommendations.innerHTML = recommendationText;
+        }
+
+        addButton.addEventListener('click', addMovieField);
+        generateButton.addEventListener('click', generateRecommendations);
+        
+        // Add the initial movie field.
+        addMovieField();
+    </script>
+</body>
+</html>

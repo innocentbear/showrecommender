@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us - Movie Magic</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li> <!-- Link to the main page -->
+            <li><a href="about.html">About Us</a></li> <!-- Link to the About Us page -->
+            <li><a href="contact.html">Contact</a></li> <!-- Link to the Contact page -->
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Contact Us</h1>
+        <div class="contact-info">
+            <p>If you have any inquiries or comments, we would be delighted to hear from you. 😊📩
+            <p>You may communicate with us via any of the listed channels or by utilizing our contact form. 📞📧</p>
+        </div>
+        <h2>Contact Form</h2>
+        <form id="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+        <div id="status-message"></div>
+
+        <h2 style="margin-bottom: 0;">Email ✉️</h2>
+        <p><a href="mailto:4krupakar@gmail.com" style="text-decoration: none; color: inherit;">hello@moviemagic.com</a>
+        </p>
+
+        <h2 style="margin-bottom: 0;">Follow Us 🚀</h2>
+        <ul>
+            <li style="display: inline;"><a href="https://www.twitter.com/moviemagic"
+                    style="text-decoration: none; color: inherit;"><i class="fab fa-twitter"></i></a></li>
+            <li style="display: inline;"><a href="https://www.instagram.com/moviemagic"
+                    style="text-decoration: none; color: inherit;"><i class="fab fa-instagram"></i></a></li>
+        </ul>
+    </div>
+
+    <!-- Your existing footer -->
+    <script src="contact.js"></script>
+</body>
+
+</html>

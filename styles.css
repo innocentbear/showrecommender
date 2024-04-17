@@ -61,6 +61,17 @@ input[type="text"] {
     color: #555;
 }
 
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background-color: #ffffff; /* White */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #555;
+}
 button {
     padding: 12px 25px;
     background-color: #e50914; /* Netflix red */
@@ -167,4 +178,68 @@ button:hover {
 #loading-message {
   margin-left: 10px; /* Add some space between the loader and the message */
   animation: fadeInOut 3s infinite; /* Apply the fadeInOut animation */
+}
+
+/* Navigation menu styles */
+
+.navbar {
+    background-color: #333; /* dark background for navbar */
+    overflow: hidden;
+    height: 50px; /* reduce the navbar height */
+    display: flex; /* use flexbox for layout */
+    justify-content: space-between; /* push items to the edges */
+}
+
+.navbar .nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* display the list items inline */
+    align-items: center;
+}
+
+.navbar .nav-links li {
+    padding: 14px 20px; /* vertical and horizontal padding */
+}
+
+.navbar .nav-links li a {
+    text-decoration: none;
+    color: #999; /* dull text color */
+    font-size: 17px; /* font size */
+    transition: 0.3s; /* smooth transition effect on hover */
+}
+
+.navbar .nav-links li a:hover {
+    color: white; /* bright text color on hover */
+    border-radius: 4px; /* add rounded corners on hover */
+}
+
+.contact-info {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f0f0f0; /* Light grey background */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+    color: #333; /* Darker text color */
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.contact-info p:last-child {
+    margin-bottom: 0; /* Remove bottom margin for the last paragraph */
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+    color: #333; /* Darker text color */
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.contact-info p:last-child {
+    margin-bottom: 0; /* Remove bottom margin for the last paragraph */
 }

@@ -2,12 +2,16 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_mail import Mail, Message
 import os
 import time  # Import time module to calculate response time
 from openai import AzureOpenAI
 
 app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "6b727570616b6172737261767961")
 CORS(app)
+
+
 
 # Initialize AzureOpenAI client with your Azure OpenAI endpoint and API key
 client = AzureOpenAI(
@@ -15,6 +19,20 @@ client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_KEY"),
     api_version="2024-02-15-preview"
 )
+
+# Configure Flask-Mail settings
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False  # Set to True if using SSL
+app.config['MAIL_USERNAME'] = '4krupakar@gmail.com'
+app.config['MAIL_PASSWORD'] = 'qbqe qsmj ejhh npcw'
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_DEFAULT_SENDER'] = '4krupakar@gmail.com'  # Set the default sender
+
+
+# Initialize Flask-Mail
+mail = Mail(app)
 
 # Configure rate limiting
 limiter = Limiter(
@@ -91,6 +109,24 @@ def generate_recommendations():
         end_time = time.time()
         total_time = end_time - start_time
         app.logger.error(f'Recommendation API call failed after {total_time:.2f} seconds with error: {str(e)}')
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/send-email', methods=['POST'])
+def send_email():
+    try:
+        name = request.json['name']
+        email = request.json['email']
+        message = request.json['message']
+
+        msg = Message(subject="New Contact Request",
+                      body=f"Name: {name}\nEmail: {email}\nMessage:\n{message}",
+                      recipients=['4krupakar@gmail.com'])  # Email where you want to receive messages
+
+        mail.send(msg)
+
+        return jsonify({'message': 'Email sent successfully.'})
+    except Exception as e:
+        app.logger.error(f'Failed to send email with error: {str(e)}')
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
