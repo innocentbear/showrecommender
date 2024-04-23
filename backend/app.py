@@ -41,6 +41,10 @@ limiter = Limiter(
     default_limits=["100 per day", "10 per hour"]
 )
 
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "OK"})
+
 @app.route('/api/recommendations', methods=['POST'])
 @limiter.limit("5 per minute")  # Limit this endpoint to 5 requests per minute
 def generate_recommendations():
@@ -130,4 +134,4 @@ def send_email():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
