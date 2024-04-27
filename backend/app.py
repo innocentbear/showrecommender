@@ -5,18 +5,19 @@ from flask_limiter.util import get_remote_address
 from flask_mail import Mail, Message
 import os
 import time  # Import time module to calculate response time
+import requests
+import logging
 from openai import AzureOpenAI
 
 app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "6b727570616b6172737261767961")
+app.secret_key = os.getenv("FLASK_SECRET_KEY", os.urandom(24))
 CORS(app)
-
 
 
 # Initialize AzureOpenAI client with your Azure OpenAI endpoint and API key
 client = AzureOpenAI(
-    azure_endpoint="https://playground1329.openai.azure.com/",
-    api_key=os.getenv("AZURE_OPENAI_KEY"),
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "https://playground1329.openai.azure.com/"),
+    api_key = os.getenv("AZURE_OPENAI_KEY"),
     api_version="2024-02-15-preview"
 )
 
@@ -41,9 +42,34 @@ limiter = Limiter(
     default_limits=["100 per day", "10 per hour"]
 )
 
+# class NoMovieSuggestionsFilter(logging.Filter):
+#     def filter(self, record):
+#         # Offending log record will have a 'movie-suggestions' message
+#         return 'fetch-movie-suggestions' not in record.getMessage()
+# # Get the default Flask logger and add the custom filter
+# flask_logger = logging.getLogger('werkzeug')
+# flask_logger.addFilter(NoMovieSuggestionsFilter())
+
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "OK"})
+
+# @app.route('/fetch-movie-suggestions', methods=['GET'])
+# @limiter.exempt
+# def fetch_movie_suggestions():
+#     searchTerm = request.args.get('searchTerm', '')
+#     omdb_api_key = os.getenv('OMDB_API_KEY')  # Your OMDb API key, securely fetched from environment variables
+#     if not omdb_api_key:
+#         return jsonify({"error": "OMDB_API_KEY not found"}), 500
+#     response = requests.get(f"https://www.omdbapi.com/?s={searchTerm}&apikey={omdb_api_key}")
+#     return jsonify(response.json())
+
+@app.route('/get-api-key', methods=['GET'])
+def get_api_key():
+    omdb_api_key = os.getenv('OMDB_API_KEY')
+    if not omdb_api_key:
+        return jsonify({"error": "OMDB_API_KEY not found"}), 500
+    return jsonify({'apiKey': omdb_api_key})
 
 @app.route('/api/recommendations', methods=['POST'])
 @limiter.limit("5 per minute")  # Limit this endpoint to 5 requests per minute
@@ -52,6 +78,7 @@ def generate_recommendations():
         start_time = time.time()  # Record the start time
         # Get user favorites from request
         favorites = request.json.get('favorites', [])
+        app.logger.info(f'List of favorites obtained from frontend: {favorites}')
 
         # Construct message text for AzureOpenAI
         message_text = [
@@ -59,7 +86,7 @@ def generate_recommendations():
                 "role": "system",
                 "content": """
                 You are a helpful assistant that suggests movies and TV series based on users preferences. 
-                Description should make the viewer to watch movie immediately.
+                Description should make the viewer want to watch the movie immediately.
                 Your task is to provide recommendations in a structured JSON-like format. 
                 The format should be as follows: 
                 "movies": [ 

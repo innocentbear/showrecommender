@@ -1,3 +1,6 @@
+let globalApiKey; // Declare a variable in a higher scope to store the API key
+// const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io';
 document.addEventListener('DOMContentLoaded', function() {
     const favoritesForm = document.getElementById('favorites-form');
     const favoritesContainer = document.getElementById('favorites-container');
@@ -5,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const generateBtn = document.getElementById('generate-btn');
     const loadingDiv = document.getElementById('loadingDiv');
     const recommendationsDiv = document.getElementById('recommendations');
-    const apiKey = '34f84a38';  // OMDb API key
+    getApiKey(); //uncomment if you want to get api key from the frontend directly
     let messageTimeout;
     // Array of engaging messages to display
     const engagingMessages = [
@@ -82,7 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
 
         // Make API call to backend server
-        fetch('http://localhost:5000/api/recommendations', {
+        fetch(`${baseUrl}/api/recommendations`, {
+        // fetch('https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io/api/recommendations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -161,7 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchSuggestions(inputElement) {
         const searchTerm = inputElement.value.trim();
         if(searchTerm.length > 2) { // Only fetch if the input length is 3 or more
-            fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${apiKey}`)
+            // uncomment the below code if you want to call omdbapi from the frontend directly
+            fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${globalApiKey}`)
+            // fetch(`${baseUrl}/fetch-movie-suggestions?searchTerm=${encodeURIComponent(searchTerm)}`)
             .then(response => response.json())
             .then(data => {
                 if(data.Search) {
@@ -202,3 +208,21 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('loading-message').textContent = message;
     }
 });
+
+// Function to get the API key from the backend
+function getApiKey() {
+    fetch(`${baseUrl}/get-api-key`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.apiKey) {
+            // Set the API key in your JavaScript code for further use
+            globalApiKey = data.apiKey;
+            // Now you can use the `globalApiKey` to make requests to OMDb API from the frontend
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching API key:', error);
+    });
+}
