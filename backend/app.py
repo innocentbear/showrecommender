@@ -7,6 +7,7 @@ import os
 import time  # Import time module to calculate response time
 import requests
 import logging
+import json
 from openai import AzureOpenAI
 
 app = Flask(__name__)
@@ -65,6 +66,7 @@ def health_check():
 #     return jsonify(response.json())
 
 @app.route('/get-api-key', methods=['GET'])
+@limiter.exempt
 def get_api_key():
     omdb_api_key = os.getenv('OMDB_API_KEY')
     if not omdb_api_key:
@@ -94,6 +96,7 @@ def generate_recommendations():
                         "title": "movie name1", 
                         "description": "description1 in single line", 
                         "imdb": "imdb link1",
+                        "country": "country of origin"
                     }
                 ], 
                 "tvSeries": [ 
@@ -101,6 +104,7 @@ def generate_recommendations():
                         "title": "tv series name1", 
                         "description": "description1", 
                         "imdb": "imdb link1",
+                        "country": "country of origin"
                     }
                 ]. 
                 You always return the JSON with no additional context or description.
@@ -129,18 +133,38 @@ def generate_recommendations():
 
         # Extract recommendations from Azure OpenAI response
         recommendations = [choice.message.content for choice in completion.choices]
+                # Parse response string into JSON
+        dataJson = json.loads(recommendations[0])
+
+        # Check the country of each movie and series and update the IMDb link if necessary
+        for category in ['movies', 'tvSeries']:
+            for item in dataJson[category]:
+                if item.get('country', '') == 'India':
+                    imdb_id = get_imdb_id_from_omdb(item['title'])
+                    if imdb_id:
+                        item['imdb'] = f"https://www.imdb.com/title/{imdb_id}/"
+                        app.logger.info(f"Updated IMDb link for {item['title']}: {item['imdb']}")
 
         end_time = time.time()  # Record the end time (after API response)
         total_time = end_time - start_time  # Compute the total response time
         app.logger.info(f'Recommendation API call took {total_time:.2f} seconds.')
         # Return recommendations as JSON response
-        return jsonify({'recommendations': recommendations})
+        return jsonify({'recommendations': json.dumps(dataJson)})
 
     except Exception as e:
         end_time = time.time()
         total_time = end_time - start_time
         app.logger.error(f'Recommendation API call failed after {total_time:.2f} seconds with error: {str(e)}')
         return jsonify({'error': str(e)}), 500
+
+def get_imdb_id_from_omdb(title):
+    # Fetch the IMDb ID for a given title from the OMDb API.
+    omdb_api_key = os.getenv('OMDB_API_KEY')  # Your OMDb API key, securely fetched from environment variables
+    response = requests.get(f"http://www.omdbapi.com/?t={title}&apikey={omdb_api_key}")
+    data = response.json()
+    imdb_id = data.get('imdbID')
+    # app.logger.info(f'IMDb ID for title "{title}": {imdb_id}')
+    return imdb_id
 
 @app.route('/send-email', methods=['POST'])
 def send_email():

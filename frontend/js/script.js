@@ -1,6 +1,6 @@
 let globalApiKey; // Declare a variable in a higher scope to store the API key
-// const baseUrl = 'http://localhost:5000';
-const baseUrl = 'https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io';
+const baseUrl = 'http://localhost:5000';
+// const baseUrl = 'https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io';
 document.addEventListener('DOMContentLoaded', function() {
     const favoritesForm = document.getElementById('favorites-form');
     const favoritesContainer = document.getElementById('favorites-container');
@@ -101,8 +101,9 @@ document.addEventListener('DOMContentLoaded', function() {
             generateBtn.disabled = false;
             
             // Parse response string into JSON
-            const dataJson = JSON.parse(data.recommendations[0]);
-
+            console.log(data.recommendations);
+            const dataJson = JSON.parse(data.recommendations);
+            
             // Generate HTML for movies and TV series recommendations
             let html = `<h2>🎦Movies</h2>${generateHtmlForCategory(dataJson.movies)}<br>
                         <h2>📺TV Series</h2>${generateHtmlForCategory(dataJson.tvSeries)}`;

@@ -244,3 +244,45 @@ button:hover {
 .contact-info p:last-child {
     margin-bottom: 0; /* Remove bottom margin for the last paragraph */
 }
+
+.site {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.site-content {
+    flex: 1;
+}
+footer {
+    flex-shrink: 0;
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 1px;
+    margin-top: auto;
+    position: fixed;
+    bottom: 0;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+    font-size: 10px; /* Reduce the text size */
+}
+
+#logo {
+    height: 40px; /* adjust as needed */
+    width: auto; /* keeps the aspect ratio */
+    margin-right: auto; /* centers the logo if the nav is a flex container */
+}
+
+#bmc-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: 50px;
+    width: auto;
+    z-index: 1000;
+}
+#bmc-button img {
+    height: 100%;
+    width: auto;
+}
