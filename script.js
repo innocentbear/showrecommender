@@ -1,6 +1,3 @@
-let globalApiKey; // Declare a variable in a higher scope to store the API key
-const baseUrl = 'http://localhost:5000';
-// const baseUrl = 'https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io';
 document.addEventListener('DOMContentLoaded', function() {
     const favoritesForm = document.getElementById('favorites-form');
     const favoritesContainer = document.getElementById('favorites-container');
@@ -8,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const generateBtn = document.getElementById('generate-btn');
     const loadingDiv = document.getElementById('loadingDiv');
     const recommendationsDiv = document.getElementById('recommendations');
-    getApiKey(); //uncomment if you want to get api key from the frontend directly
+    const apiKey = '34f84a38';  // OMDb API key
     let messageTimeout;
     // Array of engaging messages to display
     const engagingMessages = [
@@ -85,8 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
 
         // Make API call to backend server
-        fetch(`${baseUrl}/api/recommendations`, {
-        // fetch('https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io/api/recommendations', {
+        fetch('http://localhost:5000/api/recommendations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -101,17 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
             generateBtn.disabled = false;
             
             // Parse response string into JSON
-            // console.log(data.recommendations);
-            const dataJson = JSON.parse(data.recommendations);
-            
+            const dataJson = JSON.parse(data.recommendations[0]);
+
             // Generate HTML for movies and TV series recommendations
             let html = `<h2>🎦Movies</h2>${generateHtmlForCategory(dataJson.movies)}<br>
                         <h2>📺TV Series</h2>${generateHtmlForCategory(dataJson.tvSeries)}`;
 
             // Set HTML of `recommendationsDiv`
             recommendationsDiv.innerHTML = html;
-            // Append the donation prompt
-            appendDonationPrompt();
         })
         .catch(error => {
             // Hide loading symbol if an error occurs
@@ -122,21 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching recommendations:', error);
             recommendationsDiv.innerHTML = '<p>Failed to fetch recommendations. Please try again later.</p>';
         });
-    }
-    // Function to append the donation prompt
-    function appendDonationPrompt() {
-        const donationPrompt = document.createElement('div');
-        donationPrompt.innerHTML = `
-            <div class="donation-prompt">
-                <p>Your donation helps us keep this site running::</p>
-                <div class="donation-options">
-                    <a href="donate.html" class="donate-button" target="_blank">Donate</a>
-                    <a href="https://www.buymeacoffee.com/moviesflix" target="_blank">Buy Me a Coffee ☕</a>
-                </div>
-            </div>
-        `;
-        // Append the donation prompt after the recommendations
-        recommendationsDiv.appendChild(donationPrompt);
     }
 
     // Function to generate HTML for a category of recommendations
@@ -183,9 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchSuggestions(inputElement) {
         const searchTerm = inputElement.value.trim();
         if(searchTerm.length > 2) { // Only fetch if the input length is 3 or more
-            // uncomment the below code if you want to call omdbapi from the frontend directly
-            fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${globalApiKey}`)
-            // fetch(`${baseUrl}/fetch-movie-suggestions?searchTerm=${encodeURIComponent(searchTerm)}`)
+            fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${apiKey}`)
             .then(response => response.json())
             .then(data => {
                 if(data.Search) {
@@ -225,23 +201,4 @@ document.addEventListener('DOMContentLoaded', function() {
         clearTimeout(messageTimeout); // Stop cycling messages
         document.getElementById('loading-message').textContent = message;
     }
-
 });
-
-// Function to get the API key from the backend
-function getApiKey() {
-    fetch(`${baseUrl}/get-api-key`, {
-        method: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.apiKey) {
-            // Set the API key in your JavaScript code for further use
-            globalApiKey = data.apiKey;
-            // Now you can use the `globalApiKey` to make requests to OMDb API from the frontend
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching API key:', error);
-    });
-}

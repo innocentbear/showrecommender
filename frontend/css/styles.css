@@ -255,7 +255,8 @@ button:hover {
 }
 footer {
     flex-shrink: 0;
-    background-color: #f8f9fa;
+    background-color: #333;
+    color: white;
     text-align: center;
     padding: 1px;
     margin-top: auto;
@@ -267,7 +268,33 @@ footer {
     right: 0;
     font-size: 10px; /* Reduce the text size */
 }
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column; /* Stack footer content vertically */
+}
 
+.footer-content p {
+    margin: 3px 0;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* If you have a wider footer, you might want to use a row layout: */
+@media (min-width: 768px) {
+    .footer-content {
+        flex-direction: row; /* Align footer content in a row on larger screens */
+        justify-content: center; /* Center the footer content horizontally */
+    }
+}
 #logo {
     height: 40px; /* adjust as needed */
     width: auto; /* keeps the aspect ratio */
@@ -285,4 +312,77 @@ footer {
 #bmc-button img {
     height: 100%;
     width: auto;
+}
+
+.donation-prompt {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.donation-options a {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ff5f5f; /* Adjust color to match your design */
+    color: white; /* Text color */
+    text-decoration: none;
+}
+
+.donation-options a.donate-button {
+    background-color: #007bff; /* Adjust color to match your design */
+}
+
+/* Style for the Buy Me a Coffee link could be added if needed */
+
+.qr-code {
+    max-width: 200px; /* Adjust based on your preference */
+    margin-top: 15px;
+}
+
+#upi-id {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.donate-link {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.donate-link:hover {
+    text-decoration: underline;
+}
+
+/* Modal Body */
+.modal-body {
+    text-align: center;
+}
+
+.qr-code {
+    max-width: 200px; /* Adjust based on your preference */
+    margin-top: 15px;
+}
+
+#upi-id {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.donation-container h1, .donation-container p {
+    text-align: center;
+}
+
+/* QR Code and UPI ID styles */
+.qr-code {
+    display: block;
+    max-width: 300px; /* Adjust based on your preference */
+    margin: 20px auto; /* Center align the QR code */
+}
+
+.upi-id {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2em; /* Larger text for UPI ID */
 }

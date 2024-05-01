@@ -9,10 +9,12 @@ import requests
 import logging
 import json
 from openai import AzureOpenAI
+from openai import OpenAI
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", os.urandom(24))
 CORS(app)
+# CORS(app, origins=["https://moviepotter.com"])
 
 
 # Initialize AzureOpenAI client with your Azure OpenAI endpoint and API key
@@ -22,6 +24,7 @@ client = AzureOpenAI(
     api_version="2024-02-15-preview"
 )
 
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Configure Flask-Mail settings
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -123,7 +126,7 @@ def generate_recommendations():
             model="recommendations",  # model = "deployment_name"
             response_format={ "type": "json_object" },
             messages=message_text,
-            temperature=0.7,
+            temperature=0.9,
             max_tokens=800,
             top_p=0.95,
             frequency_penalty=0,
