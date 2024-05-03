@@ -1,6 +1,6 @@
 let globalApiKey; // Declare a variable in a higher scope to store the API key
-const baseUrl = 'http://localhost:5000';
-// const baseUrl = 'https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io';
+// const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io';
 document.addEventListener('DOMContentLoaded', function() {
     const favoritesForm = document.getElementById('favorites-form');
     const favoritesContainer = document.getElementById('favorites-container');
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let messageTimeout;
     // Array of engaging messages to display
     const engagingMessages = [
+        "Please wait, this may take up to 30 seconds ⏳",
         "We're tailoring recommendations just for you... 🌟",
         "Hang tight! We're finding the perfect picks for you... 🎬",
         "Almost there... Finding movies you'll love takes time! 🍿",
@@ -62,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for form submission
     favoritesForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        const favorites = Array.from(favoritesForm.elements['favorite']).map(input => input.value.trim()).filter(Boolean);
+        const favorites = Array.from(favoritesForm.elements).filter(element => element.name === 'favorite').map(input => input.value.trim()).filter(Boolean);       
+        console.log('Favorites:', favorites); // Add this line to print favorites
         if (favorites.length === 0 && favoritesForm.elements['favorite'].value.trim() === '') {
             alert('Please enter at least one favorite movie/series.');
             return;
@@ -128,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const donationPrompt = document.createElement('div');
         donationPrompt.innerHTML = `
             <div class="donation-prompt">
-                <p>Your donation helps us keep this site running::</p>
+                <p>Your donation helps us keep this site running🎉</p>
                 <div class="donation-options">
                     <a href="donate.html" class="donate-button" target="_blank">Donate</a>
                     <a href="https://www.buymeacoffee.com/moviesflix" target="_blank">Buy Me a Coffee ☕</a>

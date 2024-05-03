@@ -13,18 +13,20 @@ from openai import OpenAI
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", os.urandom(24))
-CORS(app)
-# CORS(app, origins=["https://moviepotter.com"])
+# CORS(app)
+CORS(app, origins=["https://moviepotter.com", "https://www.moviepotter.com"])
 
 
 # Initialize AzureOpenAI client with your Azure OpenAI endpoint and API key
 client = AzureOpenAI(
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "https://playground1329.openai.azure.com/"),
-    api_key = os.getenv("AZURE_OPENAI_KEY"),
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "https://playground1995.openai.azure.com/"),
+    api_key = os.getenv("AZURE_OPENAI_API_KEY"),
     api_version="2024-02-15-preview"
 )
 
+# Initialize OpenAI client with your API key
 # client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 # Configure Flask-Mail settings
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -110,7 +112,7 @@ def generate_recommendations():
                         "country": "country of origin"
                     }
                 ]. 
-                You always return the JSON with no additional context or description.
+                You always return the JSON with atleast 4 responses with no additional context or description.
                 """
             },
         ]
@@ -123,11 +125,12 @@ def generate_recommendations():
 
         # Make API call to Azure OpenAI
         completion = client.chat.completions.create(
-            model="recommendations",  # model = "deployment_name"
+            # model="gpt-4-turbo",  # model = "deployment_name"
+            model="solvecoding1106",
             response_format={ "type": "json_object" },
             messages=message_text,
-            temperature=0.9,
-            max_tokens=800,
+            temperature=1.0,
+            max_tokens=700,
             top_p=0.95,
             frequency_penalty=0,
             presence_penalty=0,
@@ -151,6 +154,7 @@ def generate_recommendations():
         end_time = time.time()  # Record the end time (after API response)
         total_time = end_time - start_time  # Compute the total response time
         app.logger.info(f'Recommendation API call took {total_time:.2f} seconds.')
+        app.logger.info(f'Recommendations: {[item["title"] for item in dataJson["movies"] + dataJson["tvSeries"]]}')
         # Return recommendations as JSON response
         return jsonify({'recommendations': json.dumps(dataJson)})
 
