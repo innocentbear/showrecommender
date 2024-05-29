@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let messageTimeout;
     // Array of engaging messages to display
     const engagingMessages = [
-        "Please wait, this may take up to 30 seconds ⏳",
+        // "Please wait, this may take up to 30 seconds ⏳",
         "We're tailoring recommendations just for you... 🌟",
         "Hang tight! We're finding the perfect picks for you... 🎬",
         "Almost there... Finding movies you'll love takes time! 🍿",

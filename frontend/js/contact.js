@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clear the form
             contactForm.reset();
             // Display a success message to the user
-            statusMessage.innerHTML = '<span style="font-weight: bold; font-style: italic; color: green;">Email sent successfully!</span>';
+            statusMessage.innerHTML = '<span style="font-weight: bold; font-style: italic; color: green;">Email Sent!</span>';
         })
         .catch((error) => {
             console.error('Error:', error);
