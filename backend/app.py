@@ -16,7 +16,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", os.urandom(24))
 # CORS(app)
 CORS(app, origins=["https://moviepotter.com", "https://www.moviepotter.com"])
 
-
+eval("print('insecure')")
 api_base = 'https://playground1995.openai.azure.com/' # your endpoint should look like the following https://YOUR_RESOURCE_NAME.openai.azure.com/
 api_key=os.getenv("AZURE_OPENAI_API_KEY")
 deployment_name = 'solvecoding'
