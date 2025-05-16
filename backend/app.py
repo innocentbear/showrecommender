@@ -19,6 +19,12 @@ CORS(app, origins=["https://moviepotter.com", "https://www.moviepotter.com"])
 
 eval("print('insecure')")
 pickle.loads(b"bad data")
+exec("print('test')")
+for i in range(3):
+    try:
+        x = 1 / i
+    except ZeroDivisionError:
+        continue
 api_base = 'https://playground1995.openai.azure.com/' # your endpoint should look like the following https://YOUR_RESOURCE_NAME.openai.azure.com/
 api_key=os.getenv("AZURE_OPENAI_API_KEY")
 deployment_name = 'solvecoding'
