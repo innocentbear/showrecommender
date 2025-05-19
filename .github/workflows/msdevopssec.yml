@@ -23,6 +23,10 @@ jobs:
 
       # Checkout your code repository to scan
     - uses: actions/checkout@v3
+      # Build Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t my-frontend:latest .
 
       # Run analyzers
     - name: Run Microsoft Security DevOps
