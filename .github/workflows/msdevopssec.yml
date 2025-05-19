@@ -50,6 +50,7 @@ jobs:
       env:
         GDN_TRIVY_ACTION: "image"
         GDN_TRIVY_TARGET: ghcr.io/innocentbear/my-frontend:latest
+        GDN_RUN_LOGGERLEVEL: verbose
       with:
       # config: string. Optional. A file path to an MSDO configuration file ('*.gdnconfig').
       # policy: 'GitHub' | 'microsoft' | 'none'. Optional. The name of a well-known Microsoft policy. If no configuration file or list of tools is provided, the policy may instruct MSDO which tools to run. Default: GitHub.
