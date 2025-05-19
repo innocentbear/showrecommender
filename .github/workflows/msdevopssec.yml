@@ -47,8 +47,8 @@ jobs:
     - name: Run Microsoft Security DevOps
       uses: microsoft/security-devops-action@latest
       id: msdo
-      # env:
-      #   GDN_TRIVY_ACTION: "image"
+      env:
+        GDN_TRIVY_ACTION: image,filesystem,repository
       #   GDN_TRIVY_TARGET: ghcr.io/innocentbear/my-frontend:latest
       #   GDN_RUN_LOGGERLEVEL: verbose
       with:
