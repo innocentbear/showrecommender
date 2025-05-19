@@ -23,6 +23,12 @@ jobs:
 
       # Checkout your code repository to scan
     - uses: actions/checkout@v3
+    - name: Login to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: 'ghcr.io'
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       # Build Docker image
     - name: Build Docker image
       run: |
@@ -34,7 +40,7 @@ jobs:
       id: msdo
       env:
         GDN_TRIVY_ACTION: "image"
-        GDN_TRIVY_TARGET: my-frontend:latest
+        GDN_TRIVY_IMAGEPATH: my-frontend:latest
       with:
       # config: string. Optional. A file path to an MSDO configuration file ('*.gdnconfig').
       # policy: 'GitHub' | 'microsoft' | 'none'. Optional. The name of a well-known Microsoft policy. If no configuration file or list of tools is provided, the policy may instruct MSDO which tools to run. Default: GitHub.
