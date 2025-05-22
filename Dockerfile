@@ -6,7 +6,7 @@ RUN npm install --global javascript-obfuscator
 RUN for jsfile in $(find ./js -name "*.js"); do javascript-obfuscator $jsfile --output $jsfile; done
 
 # Use an official Nginx runtime as the base image
-FROM nginx:alpine
+FROM nginx:1.15-alpine
 # Copy the frontend directory contents into the container at /usr/share/nginx/html
 COPY frontend/ /usr/share/nginx/html
 # Copy obfuscated JavaScript files from the build stage
