@@ -1,5 +1,5 @@
 # Use Node.js to obfuscate JavaScript files
-FROM node:10 as build-stage
+FROM node:14 as build-stage
 WORKDIR /app
 COPY frontend/js/ ./js
 RUN npm install --global javascript-obfuscator
