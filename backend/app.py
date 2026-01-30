@@ -9,29 +9,32 @@ import requests
 import logging
 import json
 from openai import AzureOpenAI
-from openai import OpenAI
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", os.urandom(24))
-# CORS(app)
-CORS(app, origins=["https://moviepotter.com", "https://www.moviepotter.com"])
+CORS(app)
+# CORS(app, origins=["https://moviepotter.com", "https://www.moviepotter.com"])
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+app.logger.setLevel(logging.INFO)
 
 
-api_base = 'https://playground1995.openai.azure.com/' # your endpoint should look like the following https://YOUR_RESOURCE_NAME.openai.azure.com/
-api_key=os.getenv("AZURE_OPENAI_API_KEY")
-deployment_name = 'solvecoding'
-api_version = '2024-02-15-preview' # this might change in the future
+api_key = os.getenv("AZURE_OPENAI_API_KEY")
+model_name = os.getenv("AZURE_OPENAI_MODEL_NAME", "gpt-4.1-nano")
+deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", model_name)
+azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT","https://empower-test-foundry.openai.azure.com/")
+api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2025-01-01-preview")
 
-# Initialize AzureOpenAI client with your Azure OpenAI endpoint and API key
-# client = AzureOpenAI(
-#     # azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "https://playground1995.openai.azure.com/"),
-#     api_key = os.getenv("AZURE_OPENAI_API_KEY"),
-#     api_version=api_version,
-#     base_url=f"{api_base}openai/deployments/{deployment_name}",
-# )
-
-# Initialize OpenAI client with your API key
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Initialize Azure OpenAI client using the documented pattern so the SDK manages auth and routing.
+client = AzureOpenAI(
+    api_version=api_version,
+    azure_endpoint=azure_endpoint,
+    api_key=api_key,
+)
 
 # Configure Flask-Mail settings
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -97,66 +100,63 @@ def generate_recommendations():
         message_text = [
             {
                 "role": "system",
-                "content": """
-                You are a helpful assistant that suggests movies and TV series based on users preferences. 
-                Your task is to provide recommendations in a structured JSON-like format. 
-                The format should be as follows: 
-                "movies": [ 
-                    { 
-                        "title": "movie name1", 
-                        "imdb": "imdb link1",
-                        "description": "description1",
-                        "country": "country of origin"
-                    }
-                ], 
-                "tvSeries": [ 
-                    { 
-                        "title": "tv series name1", 
-                        "imdb": "imdb link1",
-                        "description": "description1",
-                        "country": "country of origin"
-                    }
-                ]. 
-                You always return the JSON with atleast 4 responses with no additional context or description.
-                """
+                "content": """You are a helpful assistant that suggests movies and TV series. Return ONLY valid JSON (no markdown, no extra text) with exactly this structure:
+{
+  "movies": [
+    {"title": "name", "imdb": "https://www.imdb.com/title/...", "description": "...", "country": "..."}
+  ],
+  "tvSeries": [
+    {"title": "name", "imdb": "https://www.imdb.com/title/...", "description": "...", "country": "..."}
+  ]
+}
+Return at least 4 items in each category. Nothing else."""
             },
         ]
-        # Add user's favorite movies or series to the message text
-        for favorite in favorites:
-            message_text.append({"role": "user", "content": f"I enjoy watching {favorite}."})
-
-        # Add request for recommendations to the message text
-        message_text.append({"role": "user", "content": [
-        {"type": "text", "text": "Based on these, can you suggest other movies or series that I might also enjoy, grouped into a 'Movies' category and a 'TV Series' category, along with a short description and an IMDb link for each?"}
-        ]})
+        # Add user's favorite movies or series and request for recommendations in a single message
+        favorites_text = ", ".join(favorites) if favorites else "movies and TV series"
+        user_message = f"I enjoy watching {favorites_text}. Based on these, can you suggest other movies or series that I might also enjoy, grouped into a 'Movies' category and a 'TV Series' category, along with a short description and an IMDb link for each?"
+        message_text.append({"role": "user", "content": user_message})
 
         # Make API call to Azure OpenAI
         completion = client.chat.completions.create(
-            model="gpt-4o",  # model = "deployment_name"
-            # model="solvecoding",
-            response_format={ "type": "json_object" },
+            model=deployment,
             messages=message_text,
-            temperature=1.0,
-            max_tokens=800,
-            top_p=0.95,
+            max_completion_tokens=16384,
+            stream=False,
             frequency_penalty=0,
             presence_penalty=0,
-            stop=None
+            timeout=30,
         )
-
         # Extract recommendations from Azure OpenAI response
-        recommendations = [choice.message.content for choice in completion.choices]
-        # recomm_end_time = time.time()  # Record the end time (after API response)
-        # total_time = recomm_end_time - start_time  # Compute the total response time
-        # app.logger.info(f'OpenAI API call took {total_time:.2f} seconds.')
-                # Parse response string into JSON
-        dataJson = json.loads(recommendations[0])
+        if not completion.choices or not completion.choices[0].message.content:
+            raise ValueError("Empty response from Azure OpenAI")
+        
+        recommendations_content = completion.choices[0].message.content
+        # Parse response string into JSON
+        try:
+            dataJson = json.loads(recommendations_content)
+        except json.JSONDecodeError as json_error:
+            app.logger.error(f'Failed to parse JSON response: {json_error}')
+            raise ValueError(f"Invalid JSON response from Azure OpenAI: {json_error}")
+        
+        # Validate the JSON structure
+        if not isinstance(dataJson, dict) or 'movies' not in dataJson or 'tvSeries' not in dataJson:
+            app.logger.error(f'Unexpected JSON structure: {dataJson}')
+            raise ValueError("Response does not contain expected 'movies' and 'tvSeries' categories")
 
         # Check the country of each movie and series and update the IMDb link if necessary
         for category in ['movies', 'tvSeries']:
+            if category not in dataJson or not isinstance(dataJson[category], list):
+                app.logger.warning(f'Category "{category}" missing or not a list, skipping...')
+                continue
+            
             for item in dataJson[category]:
+                if not isinstance(item, dict):
+                    app.logger.warning(f'Invalid item format in {category}, skipping...')
+                    continue
+                    
                 if item.get('country', '') == 'India':
-                    imdb_id = get_imdb_id_from_omdb(item['title'])
+                    imdb_id = get_imdb_id_from_omdb(item.get('title', ''))
                     if imdb_id:
                         item['imdb'] = f"https://www.imdb.com/title/{imdb_id}/"
                         app.logger.info(f"Updated IMDb link for {item['title']}: {item['imdb']}")
@@ -179,13 +179,32 @@ def generate_recommendations():
         return jsonify({'error': str(e)}), 500
 
 def get_imdb_id_from_omdb(title):
-    # Fetch the IMDb ID for a given title from the OMDb API.
-    omdb_api_key = os.getenv('OMDB_API_KEY')  # Your OMDb API key, securely fetched from environment variables
-    response = requests.get(f"http://www.omdbapi.com/?t={title}&apikey={omdb_api_key}")
-    data = response.json()
-    imdb_id = data.get('imdbID')
-    # app.logger.info(f'IMDb ID for title "{title}": {imdb_id}')
-    return imdb_id
+    """Fetch the IMDb ID for a given title from the OMDb API."""
+    if not title:
+        return None
+        
+    omdb_api_key = os.getenv('OMDB_API_KEY')
+    if not omdb_api_key:
+        app.logger.error('OMDB_API_KEY not found in environment variables')
+        return None
+    
+    try:
+        response = requests.get(f"http://www.omdbapi.com/?t={title}&apikey={omdb_api_key}", timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        
+        if data.get('Response') == 'False':
+            app.logger.warning(f'Movie/series "{title}" not found in OMDb')
+            return None
+            
+        imdb_id = data.get('imdbID')
+        return imdb_id
+    except requests.RequestException as e:
+        app.logger.error(f'Failed to fetch IMDb ID for "{title}": {str(e)}')
+        return None
+    except (KeyError, ValueError) as e:
+        app.logger.error(f'Error parsing OMDb response for "{title}": {str(e)}')
+        return None
 
 # def get_description_from_omdb(title):
 #     omdb_api_key = os.getenv('OMDB_API_KEY')

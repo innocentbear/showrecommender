@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or private areas (if any)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+# Allow all crawlers to access the sitemap
+Sitemap: https://moviepotter.com/sitemap.xml
+
+# Crawl delay (optional, in seconds)
+Crawl-delay: 1

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2VK7K1Q8JJ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2VK7K1Q8JJ');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your personalized MoviePotter dashboard - manage watchlists, view recommendations history, and discover new movies.">
+    <title>Dashboard - MoviePotter</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="panda.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About Us</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                    <li><a href="/blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div id="user-menu" class="user-menu">
+                    <span id="username-display"></span>
+                    <div class="dropdown">
+                        <a href="/dashboard.html">Dashboard</a>
+                        <a href="#" id="watchlist-link">My Watchlist</a>
+                        <a href="#" id="premium-link">Go Premium</a>
+                        <a href="#" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container dashboard-container">
+        <h1>
+            <a href="/">
+                <img src="logo.png" alt="MoviePotter Logo" id="main-logo">
+            </a>
+        </h1>
+        
+        <div class="dashboard-header">
+            <h2>Welcome back, <span id="dashboard-username"></span>! 🎬</h2>
+            <p class="dashboard-subtitle">Manage your movies, track your watchlist, and get personalized recommendations</p>
+        </div>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <i class="fas fa-list"></i>
+                <div class="stat-info">
+                    <h3 id="watchlist-count">0</h3>
+                    <p>Movies in Watchlist</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-star"></i>
+                <div class="stat-info">
+                    <h3 id="recommendations-count">0</h3>
+                    <p>Recommendations Generated</p>
+                </div>
+            </div>
+            <div class="stat-card premium-card">
+                <i class="fas fa-crown"></i>
+                <div class="stat-info">
+                    <h3 id="premium-status">Free</h3>
+                    <p>Account Type</p>
+                    <button id="upgrade-btn" class="upgrade-btn">Upgrade to Premium</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-sections">
+            <!-- Quick Actions -->
+            <section class="dashboard-section">
+                <h3><i class="fas fa-rocket"></i> Quick Actions</h3>
+                <div class="quick-actions">
+                    <button class="action-btn" onclick="window.location.href='/'">
+                        <i class="fas fa-magic"></i>
+                        Get New Recommendations
+                    </button>
+                    <button class="action-btn" id="view-watchlist-btn">
+                        <i class="fas fa-list"></i>
+                        View My Watchlist
+                    </button>
+                    <button class="action-btn" id="browse-trending-btn">
+                        <i class="fas fa-fire"></i>
+                        Browse Trending
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recent Watchlist -->
+            <section class="dashboard-section">
+                <h3><i class="fas fa-bookmark"></i> Recent Watchlist Items</h3>
+                <div id="recent-watchlist" class="movies-grid">
+                    <!-- Dynamic content -->
+                </div>
+                <button id="view-all-watchlist" class="view-more-btn">View All Watchlist Items</button>
+            </section>
+
+            <!-- Recommendation History -->
+            <section class="dashboard-section">
+                <h3><i class="fas fa-history"></i> Recent Recommendations</h3>
+                <div id="recent-recommendations" class="recommendations-history">
+                    <!-- Dynamic content -->
+                </div>
+            </section>
+
+            <!-- Premium Features Preview -->
+            <section class="dashboard-section premium-preview">
+                <h3><i class="fas fa-crown"></i> Unlock Premium Features</h3>
+                <div class="premium-features">
+                    <div class="feature-item">
+                        <i class="fas fa-infinity"></i>
+                        <div>
+                            <h4>Unlimited Recommendations</h4>
+                            <p>Get unlimited AI-powered recommendations daily</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-ad"></i>
+                        <div>
+                            <h4>Ad-Free Experience</h4>
+                            <p>Enjoy MoviePotter without any advertisements</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-download"></i>
+                        <div>
+                            <h4>Export Watchlist</h4>
+                            <p>Export your watchlist to PDF or other formats</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-bell"></i>
+                        <div>
+                            <h4>Smart Notifications</h4>
+                            <p>Get notified when your watchlist movies are available on streaming</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="premium-cta-btn" id="premium-cta">
+                    <i class="fas fa-crown"></i>
+                    Upgrade to Premium - Only $4.99/month
+                </button>
+            </section>
+        </div>
+    </div>
+
+    <!-- Watchlist Modal -->
+    <div id="watchlist-modal" class="modal">
+        <div class="modal-content large-modal">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-list"></i> My Watchlist</h2>
+            <div id="watchlist-content" class="watchlist-grid">
+                <!-- Dynamic watchlist content -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <p>&copy; <script>document.write(new Date().getFullYear());</script> MoviePotter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

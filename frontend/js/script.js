@@ -1,6 +1,6 @@
 let globalApiKey; // Declare a variable in a higher scope to store the API key
-// const baseUrl = 'http://localhost:5000';
-const baseUrl = 'https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io';
+const baseUrl = 'http://localhost:5000';
+// const baseUrl = 'https://backend.icydesert-27b1a4fc.centralindia.azurecontainerapps.io';
 document.addEventListener('DOMContentLoaded', function() {
     const favoritesForm = document.getElementById('favorites-form');
     const favoritesContainer = document.getElementById('favorites-container');

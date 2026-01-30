@@ -1,0 +1,54 @@
+# Python / Flask
+__pycache__/
+*.py[cod]
+*.so
+*.egg*
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.log
+instance/
+.env
+.env.*
+*.env
+.venv/
+venv/
+ENV/
+.envrc
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# Databases / state
+*.db
+*.sqlite
+*.sqlite3
+
+# Test & coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# Node / frontend artifacts
+**/node_modules/
+**/.parcel-cache/
+**/dist/
+**/build/
+**/.next/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+*.pid
+*.seed

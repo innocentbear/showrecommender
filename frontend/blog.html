@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2VK7K1Q8JJ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2VK7K1Q8JJ');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MoviePotter Blog - Latest movie news, reviews, recommendations, and entertainment industry insights. Stay updated with trending movies and TV shows.">
+    <meta name="keywords" content="movie blog, movie news, film reviews, movie recommendations, entertainment news, cinema, TV shows">
+    <title>Blog - Movie News & Reviews | MoviePotter</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="panda.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About Us</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                    <li><a href="/blog.html" class="active">Blog</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div id="auth-links" class="auth-section">
+                    <a href="#" id="login-btn" class="auth-btn">Login</a>
+                    <a href="#" id="signup-btn" class="auth-btn primary">Sign Up</a>
+                </div>
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <span id="username-display"></span>
+                    <div class="dropdown">
+                        <a href="/dashboard.html">Dashboard</a>
+                        <a href="#" id="watchlist-link">My Watchlist</a>
+                        <a href="#" id="premium-link">Go Premium</a>
+                        <a href="#" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container blog-container">
+        <h1>
+            <a href="/">
+                <img src="logo.png" alt="MoviePotter Logo" id="main-logo">
+            </a>
+        </h1>
+        
+        <div class="blog-header">
+            <h2>🎬 MoviePotter Blog</h2>
+            <p>Latest movie news, reviews, and entertainment insights</p>
+        </div>
+
+        <div class="blog-content">
+            <!-- Featured Article -->
+            <article class="featured-article">
+                <div class="article-image">
+                    <img src="https://images.unsplash.com/photo-1489599687946-6c8c1c62f681?w=800&h=400&fit=crop" alt="Movie trends 2025">
+                </div>
+                <div class="article-content">
+                    <span class="article-category">Trending</span>
+                    <h3>Top 10 Movie Trends to Watch in 2025</h3>
+                    <p>Discover the cinematic trends shaping 2025, from AI-generated content to immersive storytelling techniques that are revolutionizing the movie industry.</p>
+                    <div class="article-meta">
+                        <span><i class="fas fa-calendar"></i> November 8, 2025</span>
+                        <span><i class="fas fa-clock"></i> 5 min read</span>
+                        <span><i class="fas fa-eye"></i> 1,247 views</span>
+                    </div>
+                    <button class="read-more-btn">Read Full Article</button>
+                </div>
+            </article>
+
+            <!-- Blog Posts Grid -->
+            <div class="blog-grid">
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=200&fit=crop" alt="Netflix recommendations">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">Streaming</span>
+                        <h4>How AI is Revolutionizing Movie Recommendations</h4>
+                        <p>Explore how artificial intelligence is changing the way we discover new movies and TV shows...</p>
+                        <div class="post-meta">
+                            <span><i class="fas fa-calendar"></i> Nov 7, 2025</span>
+                            <span><i class="fas fa-eye"></i> 892 views</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400&h=200&fit=crop" alt="Movie review">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">Reviews</span>
+                        <h4>Must-Watch Movies This Weekend</h4>
+                        <p>Our curated list of the best movies to binge-watch this weekend, from thrillers to comedies...</p>
+                        <div class="post-meta">
+                            <span><i class="fas fa-calendar"></i> Nov 6, 2025</span>
+                            <span><i class="fas fa-eye"></i> 1,456 views</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1489599687946-6c8c1c62f681?w=400&h=200&fit=crop" alt="Cinema history">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">History</span>
+                        <h4>The Evolution of Cinema: Past, Present, and Future</h4>
+                        <p>A journey through the history of cinema and what the future holds for filmmaking...</p>
+                        <div class="post-meta">
+                            <span><i class="fas fa-calendar"></i> Nov 5, 2025</span>
+                            <span><i class="fas fa-eye"></i> 623 views</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1478720568477-b0ac8ae12a0f?w=400&h=200&fit=crop" alt="Behind the scenes">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">Behind the Scenes</span>
+                        <h4>Inside Hollywood: How Movies Are Made Today</h4>
+                        <p>Get an exclusive look behind the camera and discover the modern filmmaking process...</p>
+                        <div class="post-meta">
+                            <span><i class="fas fa-calendar"></i> Nov 4, 2025</span>
+                            <span><i class="fas fa-eye"></i> 987 views</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop" alt="International cinema">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">International</span>
+                        <h4>Hidden Gems: International Movies You Need to Watch</h4>
+                        <p>Discover incredible films from around the world that deserve more recognition...</p>
+                        <div class="post-meta">
+                            <span><i class="fas fa-calendar"></i> Nov 3, 2025</span>
+                            <span><i class="fas fa-eye"></i> 734 views</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=400&h=200&fit=crop" alt="TV series">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">TV Shows</span>
+                        <h4>Binge-Worthy TV Series Ending This Year</h4>
+                        <p>Don't miss out on these amazing TV series that are concluding in 2025...</p>
+                        <div class="post-meta">
+                            <span><i class="fas fa-calendar"></i> Nov 2, 2025</span>
+                            <span><i class="fas fa-eye"></i> 1,123 views</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Newsletter Signup in Blog -->
+            <section class="blog-newsletter">
+                <div class="newsletter-content">
+                    <h3>📬 Never Miss a Post!</h3>
+                    <p>Subscribe to get the latest movie news and recommendations delivered to your inbox.</p>
+                    <form id="blog-newsletter-form" class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Categories -->
+            <aside class="blog-sidebar">
+                <div class="sidebar-section">
+                    <h4>Categories</h4>
+                    <ul class="category-list">
+                        <li><a href="#"><i class="fas fa-fire"></i> Trending <span>(23)</span></a></li>
+                        <li><a href="#"><i class="fas fa-star"></i> Reviews <span>(18)</span></a></li>
+                        <li><a href="#"><i class="fas fa-tv"></i> Streaming <span>(15)</span></a></li>
+                        <li><a href="#"><i class="fas fa-history"></i> Cinema History <span>(12)</span></a></li>
+                        <li><a href="#"><i class="fas fa-camera"></i> Behind the Scenes <span>(9)</span></a></li>
+                        <li><a href="#"><i class="fas fa-globe"></i> International <span>(7)</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <h4>Popular Posts</h4>
+                    <div class="popular-posts">
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1489599687946-6c8c1c62f681?w=80&h=60&fit=crop" alt="Popular post">
+                            <div>
+                                <h5>AI in Filmmaking: The Future is Here</h5>
+                                <span>2,341 views</span>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=80&h=60&fit=crop" alt="Popular post">
+                            <div>
+                                <h5>Best Streaming Platforms Compared</h5>
+                                <span>1,987 views</span>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=80&h=60&fit=crop" alt="Popular post">
+                            <div>
+                                <h5>Top 50 Movies of All Time</h5>
+                                <span>1,654 views</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <p>&copy; <script>document.write(new Date().getFullYear());</script> MoviePotter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/blog.js"></script>
+</body>
+</html>

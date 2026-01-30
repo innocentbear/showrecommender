@@ -1,0 +1,48 @@
+# Exclude VCS and editor metadata
+.git
+.gitignore
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Python caches and virtualenvs
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.venv
+venv
+ENV
+
+# Environment files
+.env
+*.env
+.env.*
+.envrc
+
+# Databases / local state
+*.db
+*.sqlite*
+instance
+
+# Test & coverage artifacts
+.coverage*
+.pytest_cache
+.mypy_cache
+htmlcov
+.cache
+
+# Frontend dependencies & builds
+**/node_modules
+**/dist
+**/build
+**/.next
+
+# Logs and temp files
+*.log
+*.pid
+*.seed
